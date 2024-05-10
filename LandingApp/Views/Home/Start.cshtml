@@ -1,0 +1,66 @@
+﻿
+@using LandingApp.ViewModels
+@model HomeViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Conversion Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+            .button:hover {
+                background-color: #45a049;
+            }
+    </style>
+</head>
+<body>
+    <div>
+        <button class="button" id="selectProject" asp-controller="Selection" asp-action="UploadFile">Select Project</button>
+        <button class="button" id="convertRevit">Convert to Revit</button>
+        <button class="button" id="convertDWG">Convert to DWG</button>
+    </div>
+
+    <script>document.getElementById('selectProject').addEventListener('click', () => location = '/Selection/UploadFile');
+
+       
+
+        document.getElementById('convertRevit').addEventListener('click', function () {
+            
+            alert('Converting to Revit...');
+        });
+
+        document.getElementById('convertDWG').addEventListener('click', function () {
+           
+            alert('Converting to DWG...');
+        });</script>
+
+</body>
+</html>
