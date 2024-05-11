@@ -4,12 +4,77 @@
 <html>
 <head>
     <title>File Upload Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+            .button:hover {
+                background-color: #45a049;
+            }
+    </style>
 </head>
 <body>
     <h1>File Upload Example</h1>
-    <form asp-controller="Selection" asp-action="UploadFile" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" />
-        <input type="submit" value="Upload" />
-    </form>
+    <button class="button" id="selectButton">Select File</button>
+    
+    <button class="button" id="uploadButton" type="submit" value="Upload">Finish selection</button>
+
+    <script>
+
+        document.getElementById('uploadButton').addEventListener('click', () => location = '/Home/Start');
+
+        document.getElementById('selectButton').addEventListener('click', function () {
+            var input = document.createElement('input');
+            input.type = 'file';
+            input.addEventListener('change', function () {
+                var file = input.files[0];
+                var formData = new FormData();
+                formData.append('file', file);
+
+                fetch('/Selection/UploadFile', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to upload file.');
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        // Добавьте здесь код для обработки ответа от сервера, если это необходимо
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
+
+            input.click();
+        });
+
+        
+
+        </script>
 </body>
 </html>

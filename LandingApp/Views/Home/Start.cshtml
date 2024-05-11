@@ -44,18 +44,50 @@
 <body>
     <div>
         <button class="button" id="selectProject" asp-controller="Selection" asp-action="UploadFile">Select Project</button>
-        <button class="button" id="convertRevit">Convert to Revit</button>
+        <button class="button" id="convertRevit" asp-controller="Upload" asp-action="GetFile">Convert to Revit</button>
         <button class="button" id="convertDWG">Convert to DWG</button>
     </div>
 
-    <script>document.getElementById('selectProject').addEventListener('click', () => location = '/Selection/UploadFile');
+    <script>
+
+        document.getElementById('selectProject').addEventListener('click', () => location = '/Selection/UploadFile');
 
        
 
-        document.getElementById('convertRevit').addEventListener('click', function () {
-            
-            alert('Converting to Revit...');
+        document.getElementById("convertRevit").addEventListener("click", function () {
+            fetch('/api/upload/getfile') // Вызываем метод GetFile контроллера UploadController
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to retrieve file list.');
+                    }
+                    return response.json(); // Возвращаем результат как JSON
+                })
+                .then(data => {
+                    fetch('/api/upload/runfile', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data) // Передаем полученный список файлов для выполнения
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Failed to run files.');
+                            }
+                            return response.text(); // Возвращаем текст результата
+                        })
+                        .then(result => {
+                            console.log(result); // Логируем результат выполнения файлов (можно отобразить на странице или другую обработку)
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         });
+
 
         document.getElementById('convertDWG').addEventListener('click', function () {
            
