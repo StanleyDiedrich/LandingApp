@@ -35,7 +35,8 @@ namespace LandingApp.Controllers
         {
             foreach(var file in files)
             {
-                Process.Start(file);
+                Process.Start(new ProcessStartInfo { FileName = file, UseShellExecute = true });
+                
             }    
             
 

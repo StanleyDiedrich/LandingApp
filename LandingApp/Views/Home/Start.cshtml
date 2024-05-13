@@ -45,14 +45,16 @@
     <div>
         <button class="button" id="selectProject" asp-controller="Selection" asp-action="UploadFile">Select Project</button>
         <button class="button" id="convertRevit" asp-controller="Upload" asp-action="GetFile">Convert to Revit</button>
-        <button class="button" id="convertDWG">Convert to DWG</button>
-    </div>
+        <button class="button" runat="server" id="convertDWG">Convert to DWG </button>
+       
+       
 
-    <script>
+            
+</div>
+
+    <script >
 
         document.getElementById('selectProject').addEventListener('click', () => location = '/Selection/UploadFile');
-
-       
 
         document.getElementById("convertRevit").addEventListener("click", function () {
             fetch('/api/upload/getfile') // Вызываем метод GetFile контроллера UploadController
@@ -88,11 +90,14 @@
                 });
         });
 
+       
+        document.getElementById('convertDWG').addEventListener('click', () => location = '/Selection/UploadFile')
 
-        document.getElementById('convertDWG').addEventListener('click', function () {
-           
-            alert('Converting to DWG...');
-        });</script>
+        
+
+
+
+    </script>
 
 </body>
 </html>
